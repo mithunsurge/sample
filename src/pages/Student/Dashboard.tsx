@@ -398,9 +398,9 @@ const StudentDashboard: React.FC = () => {
           <div className="w-16 h-16 glass-spinner rounded-full animate-spin mx-auto mb-6"></div>
           <div className="flex items-center justify-center space-x-3">
             <Zap className="w-6 h-6 text-cosmic-500" />
-            <span className="text-xl font-medium text-gray-200">Loading Cosmic Menu...</span>
+            <span className="text-xl font-medium text-gray-200">Loading Student Dashboard...</span>
           </div>
-          <p className="text-gray-400 text-sm mt-2">Preparing your cosmic dining experience</p>
+          <p className="text-gray-400 text-sm mt-2">Preparing your dining experience</p>
         </div>
       </div>
     );
@@ -409,7 +409,7 @@ const StudentDashboard: React.FC = () => {
   return (
     <div className="min-h-screen cosmic-gradient">
       <Header
-        title={activeTab === 'menu' ? 'Cosmic Menu' : 'Your Orders'}
+        title={activeTab === 'menu' ? 'Student Dashboard' : 'Your Orders'}
         showCart={activeTab === 'menu'}
         cartCount={cartCount}
         onCartClick={() => setIsCartOpen(true)}
@@ -437,7 +437,7 @@ const StudentDashboard: React.FC = () => {
                   : 'border-transparent text-gray-500 hover:text-gray-300 hover:border-gray-400'
               }`}
             >
-              Cosmic Menu
+              Menu
             </button>
             <button
               onClick={() => setActiveTab('orders')}
@@ -461,7 +461,7 @@ const StudentDashboard: React.FC = () => {
                 <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                 <input
                   type="text"
-                  placeholder="Search for cosmic delicacies..."
+                  placeholder="Search for delicious items..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 glass-input rounded-lg focus:ring-2 focus:ring-cosmic-500 focus:border-transparent"
@@ -549,7 +549,7 @@ const StudentDashboard: React.FC = () => {
                 <div className="w-16 h-16 glass-morphism rounded-full flex items-center justify-center mx-auto mb-4 border border-white/20">
                   <Search className="w-8 h-8 text-gray-400" />
                 </div>
-                <h3 className="text-lg font-medium text-white mb-2">No cosmic delicacies found</h3>
+                <h3 className="text-lg font-medium text-white mb-2">No items found</h3>
                 <p className="text-gray-400">Try adjusting your search or filter criteria</p>
               </div>
             )}
@@ -577,12 +577,12 @@ const StudentDashboard: React.FC = () => {
                   <Package className="w-8 h-8 text-gray-400" />
                 </div>
                 <h3 className="text-lg font-medium text-white mb-2">No orders yet</h3>
-                <p className="text-gray-400 mb-6">Your cosmic feast orders will appear here</p>
+                <p className="text-gray-400 mb-6">Your orders will appear here</p>
                 <button
                   onClick={() => setActiveTab('menu')}
                   className="ios-button text-white px-6 py-2 rounded-lg transition-all duration-200 cosmic-glow"
                 >
-                  Browse Cosmic Menu
+                  Browse Menu
                 </button>
               </div>
             ) : (
@@ -635,7 +635,7 @@ const StudentDashboard: React.FC = () => {
                       <div className="toast-success rounded-lg p-4">
                         <div className="flex items-center">
                           <CheckCircle className="w-5 h-5 text-green-400 mr-2" />
-                          <span className="text-green-300 font-medium">Your cosmic feast is ready for pickup!</span>
+                          <span className="text-green-300 font-medium">Your order is ready for pickup!</span>
                         </div>
                       </div>
                     )}
@@ -644,7 +644,7 @@ const StudentDashboard: React.FC = () => {
                       <div className="status-processing rounded-lg p-4">
                         <div className="flex items-center">
                           <Package className="w-5 h-5 text-cosmic-400 mr-2" />
-                          <span className="text-cosmic-300 font-medium">Your order is being prepared by our cosmic chefs</span>
+                          <span className="text-cosmic-300 font-medium">Your order is being prepared</span>
                         </div>
                       </div>
                     )}
@@ -681,7 +681,7 @@ const StudentDashboard: React.FC = () => {
                 <div className="text-center py-12">
                   <ShoppingCart className="w-16 h-16 text-gray-400 mx-auto mb-4" />
                   <h3 className="text-lg font-medium text-white mb-2">Your cart is empty</h3>
-                  <p className="text-gray-400">Add some cosmic delicacies to get started!</p>
+                  <p className="text-gray-400">Add some delicious items to get started!</p>
                 </div>
               ) : (
                 <div className="space-y-4">

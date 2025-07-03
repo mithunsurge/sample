@@ -190,7 +190,7 @@ const StaffDashboard: React.FC = () => {
       if (error) throw error;
       
       if (status === 'ready') {
-        showToast('Order marked as ready! The cosmic kitchen has completed its work!', 'success');
+        showToast('Order marked as ready! The kitchen has completed its work!', 'success');
       } else {
         showToast(`Order status updated to ${status}`, 'success');
       }
@@ -344,17 +344,17 @@ const StaffDashboard: React.FC = () => {
 
   const formatStudentInfo = (orderUser: any) => {
     if (!orderUser) {
-      return 'Unknown Student (No User Data)';
+      return 'Student';
     }
     
-    const name = orderUser.full_name || 'Unknown Name';
+    const name = orderUser.full_name || 'Student';
     const regNumber = orderUser.registration_number;
     
     if (regNumber) {
       return `${name} (${regNumber})`;
     }
     
-    return `${name} (No Reg. Number)`;
+    return name;
   };
 
   if (loading) {
@@ -366,7 +366,7 @@ const StaffDashboard: React.FC = () => {
             <Crown className="w-6 h-6 text-yellow-500" />
             <span className="text-xl font-medium text-gray-200">Loading Command Center...</span>
           </div>
-          <p className="text-gray-400 text-sm mt-2">Preparing your cosmic kitchen</p>
+          <p className="text-gray-400 text-sm mt-2">Preparing your kitchen</p>
         </div>
       </div>
     );
