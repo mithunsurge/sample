@@ -26,7 +26,7 @@ const Header: React.FC<HeaderProps> = ({ title, showCart = false, cartCount = 0,
               <div className="flex-shrink-0 flex items-center group">
                 <button 
                   onClick={handleIconClick}
-                  className="w-16 h-16 flex items-center justify-center cosmic-glow mr-4 group-hover:scale-110 transition-transform duration-300 icon-glow cursor-pointer"
+                  className="w-16 h-16 flex items-center justify-center cosmic-glow mr-4 group-hover:scale-110 transition-transform duration-300 icon-glow cursor-pointer rounded-full"
                 >
                   <img src="/site-icon.png" alt="Cosmic Cantina" className="w-12 h-12 rounded-full object-cover" />
                 </button>
