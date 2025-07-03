@@ -27,7 +27,6 @@ const StudentDashboard: React.FC = () => {
   const [updatingCart, setUpdatingCart] = useState<string | null>(null);
   const [addingToCart, setAddingToCart] = useState<string | null>(null);
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
-  const [refreshKey, setRefreshKey] = useState(0); // Force re-render key
 
   const showToast = (message: string, type: 'success' | 'error') => {
     const id = Date.now().toString();
@@ -44,7 +43,7 @@ const StudentDashboard: React.FC = () => {
     if (activeTab === 'orders') {
       fetchOrders();
     }
-  }, [activeTab, refreshKey]); // Add refreshKey as dependency
+  }, [activeTab]);
 
   const fetchMenuItems = async () => {
     try {
@@ -110,10 +109,10 @@ const StudentDashboard: React.FC = () => {
     }
   };
 
-  // Helper function to update inventory in database and force UI refresh
-  const updateInventoryAndRefresh = async (menuItemId: string, quantityChange: number) => {
+  // Helper function to update inventory in database and local state
+  const updateInventoryAndLocalState = async (menuItemId: string, quantityChange: number) => {
     try {
-      // Get current quantity
+      // Get current quantity from database
       const { data: currentItem, error: fetchError } = await supabase
         .from('menu_items')
         .select('quantity_available')
@@ -124,7 +123,7 @@ const StudentDashboard: React.FC = () => {
 
       const newQuantity = Math.max(0, currentItem.quantity_available + quantityChange);
       
-      // Update the inventory
+      // Update the inventory in database
       const { error: updateError } = await supabase
         .from('menu_items')
         .update({ quantity_available: newQuantity })
@@ -134,7 +133,7 @@ const StudentDashboard: React.FC = () => {
 
       console.log(`Inventory updated: Item ${menuItemId}, Change: ${quantityChange}, New Quantity: ${newQuantity}`);
       
-      // Force immediate UI refresh by updating the local state
+      // Update local state immediately
       setMenuItems(prevItems => 
         prevItems.map(item => 
           item.id === menuItemId 
@@ -143,9 +142,7 @@ const StudentDashboard: React.FC = () => {
         )
       );
       
-      // Also trigger a fresh fetch to ensure data consistency
-      setRefreshKey(prev => prev + 1);
-      
+      return newQuantity;
     } catch (error) {
       console.error('Error updating inventory:', error);
       throw error;
@@ -179,7 +176,7 @@ const StudentDashboard: React.FC = () => {
           return;
         }
         
-        // Update cart quantity
+        // Update cart quantity first
         const { error: cartError } = await supabase
           .from('cart_items')
           .update({ quantity: newQuantity })
@@ -187,28 +184,39 @@ const StudentDashboard: React.FC = () => {
 
         if (cartError) throw cartError;
         
-        // Decrease inventory by 1 and refresh UI
-        await updateInventoryAndRefresh(menuItem.id, -1);
+        // Update inventory and local state
+        await updateInventoryAndLocalState(menuItem.id, -1);
         
-        // Refresh cart
-        await fetchCartItems();
+        // Update cart items in local state
+        setCartItems(prevItems => 
+          prevItems.map(item => 
+            item.id === existingItem.id 
+              ? { ...item, quantity: newQuantity }
+              : item
+          )
+        );
       } else {
         // Add new item to cart
-        const { error } = await supabase
+        const { data: newCartItem, error } = await supabase
           .from('cart_items')
           .insert({
             user_id: user.id,
             menu_item_id: menuItem.id,
             quantity: 1
-          });
+          })
+          .select(`
+            *,
+            menu_item:menu_items(*)
+          `)
+          .single();
 
         if (error) throw error;
         
-        // Decrease inventory by 1 and refresh UI
-        await updateInventoryAndRefresh(menuItem.id, -1);
+        // Update inventory and local state
+        await updateInventoryAndLocalState(menuItem.id, -1);
         
-        // Refresh cart
-        await fetchCartItems();
+        // Add new item to cart in local state
+        setCartItems(prevItems => [...prevItems, newCartItem]);
       }
       
       showToast('Item added to cart!', 'success');
@@ -240,8 +248,11 @@ const StudentDashboard: React.FC = () => {
 
         if (error) throw error;
         
-        // Return all quantity back to inventory and refresh UI
-        await updateInventoryAndRefresh(cartItem.menu_item_id, oldQuantity);
+        // Return all quantity back to inventory
+        await updateInventoryAndLocalState(cartItem.menu_item_id, oldQuantity);
+        
+        // Remove from local cart state
+        setCartItems(prevItems => prevItems.filter(item => item.id !== cartItemId));
         
         showToast('Item removed from cart', 'success');
       } else {
@@ -257,7 +268,7 @@ const StudentDashboard: React.FC = () => {
           }
         }
 
-        // Update cart quantity
+        // Update cart quantity in database
         const { error } = await supabase
           .from('cart_items')
           .update({ quantity: newQuantity })
@@ -265,12 +276,18 @@ const StudentDashboard: React.FC = () => {
 
         if (error) throw error;
 
-        // Update inventory and refresh UI (negative quantityDifference means we're taking from inventory)
-        await updateInventoryAndRefresh(cartItem.menu_item_id, -quantityDifference);
+        // Update inventory (negative quantityDifference means we're taking from inventory)
+        await updateInventoryAndLocalState(cartItem.menu_item_id, -quantityDifference);
+        
+        // Update local cart state
+        setCartItems(prevItems => 
+          prevItems.map(item => 
+            item.id === cartItemId 
+              ? { ...item, quantity: newQuantity }
+              : item
+          )
+        );
       }
-
-      // Refresh cart
-      await fetchCartItems();
     } catch (error) {
       console.error('Error updating cart quantity:', error);
       showToast('Failed to update cart', 'error');
@@ -323,8 +340,8 @@ const StudentDashboard: React.FC = () => {
 
       if (clearCartError) throw clearCartError;
 
-      // Refresh cart and menu
-      await Promise.all([fetchCartItems(), fetchMenuItems()]);
+      // Clear local cart state
+      setCartItems([]);
 
       setIsCartOpen(false);
       showToast('Order placed successfully! Your cosmic feast is being prepared!', 'success');
@@ -473,7 +490,7 @@ const StudentDashboard: React.FC = () => {
                 const canAddToCart = item.quantity_available > 0;
                 
                 return (
-                  <div key={`${item.id}-${item.quantity_available}`} className={`glass-card rounded-xl overflow-hidden hover-lift transition-all duration-300 ${isOutOfStock ? 'opacity-60' : ''}`}>
+                  <div key={item.id} className={`glass-card rounded-xl overflow-hidden hover-lift transition-all duration-300 ${isOutOfStock ? 'opacity-60' : ''}`}>
                     <div className="relative">
                       <img
                         src={item.image_url}
