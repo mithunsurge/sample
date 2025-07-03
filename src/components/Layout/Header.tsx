@@ -12,19 +12,16 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ title, showCart = false, cartCount = 0, onCartClick }) => {
   const { user, signOut } = useAuth();
 
-  const handleIconDoubleClick = () => {
-    // First alert
+  const handleIconDoubleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    console.log('Double click detected!'); // Debug log
+    
+    // Show the alerts immediately
     alert("You are on this council, but we do not grant you the rank of Master.");
-    
-    // Second alert after a short delay
-    setTimeout(() => {
-      alert("– Mace Windu");
-    }, 500);
-    
-    // Third alert with additional context
-    setTimeout(() => {
-      alert("The Force is strong with this one! 🌟");
-    }, 1000);
+    alert("– Mace Windu");
+    alert("The Force is strong with this one! 🌟");
   };
 
   return (
@@ -34,16 +31,18 @@ const Header: React.FC<HeaderProps> = ({ title, showCart = false, cartCount = 0,
           <div className="flex justify-between items-center h-18 py-4">
             <div className="flex items-center">
               <div className="flex-shrink-0 flex items-center group">
-                <button 
+                <div 
                   onDoubleClick={handleIconDoubleClick}
                   className="w-16 h-16 flex items-center justify-center cosmic-glow mr-4 group-hover:scale-110 transition-transform duration-300 icon-glow cursor-pointer rounded-full"
+                  style={{ userSelect: 'none' }}
                 >
                   <img 
                     src="/site-icon.png" 
                     alt="Cosmic Cantina" 
-                    className="w-12 h-12 rounded-full object-cover pointer-events-none" 
+                    className="w-12 h-12 rounded-full object-cover" 
+                    draggable={false}
                   />
-                </button>
+                </div>
                 <div>
                   <span className="text-xl font-bold cosmic-text tracking-wide">Cosmic Cantina</span>
                   <div className="text-xs text-gray-400 font-medium">Digital Dining System</div>
