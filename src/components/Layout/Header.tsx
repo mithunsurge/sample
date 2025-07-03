@@ -11,10 +11,20 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ title, showCart = false, cartCount = 0, onCartClick }) => {
   const { user, signOut } = useAuth();
-  const [showQuoteModal, setShowQuoteModal] = useState(false);
 
-  const handleIconClick = () => {
-    setShowQuoteModal(true);
+  const handleIconDoubleClick = () => {
+    // First alert
+    alert("You are on this council, but we do not grant you the rank of Master.");
+    
+    // Second alert after a short delay
+    setTimeout(() => {
+      alert("– Mace Windu");
+    }, 500);
+    
+    // Third alert with additional context
+    setTimeout(() => {
+      alert("The Force is strong with this one! 🌟");
+    }, 1000);
   };
 
   return (
@@ -25,9 +35,14 @@ const Header: React.FC<HeaderProps> = ({ title, showCart = false, cartCount = 0,
             <div className="flex items-center">
               <div className="flex-shrink-0 flex items-center group">
                 <button 
+                  onDoubleClick={handleIconDoubleClick}
                   className="w-16 h-16 flex items-center justify-center cosmic-glow mr-4 group-hover:scale-110 transition-transform duration-300 icon-glow cursor-pointer rounded-full"
                 >
-                  <img src="/site-icon.png" alt="Cosmic Cantina" className="w-12 h-12 rounded-full object-cover cursor-pointer" onClick={handleIconClick} />
+                  <img 
+                    src="/site-icon.png" 
+                    alt="Cosmic Cantina" 
+                    className="w-12 h-12 rounded-full object-cover pointer-events-none" 
+                  />
                 </button>
                 <div>
                   <span className="text-xl font-bold cosmic-text tracking-wide">Cosmic Cantina</span>
@@ -95,52 +110,6 @@ const Header: React.FC<HeaderProps> = ({ title, showCart = false, cartCount = 0,
           </div>
         </div>
       </header>
-
-      {/* Star Wars Quote Modal */}
-      {showQuoteModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div 
-            className="absolute inset-0 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300" 
-            onClick={() => setShowQuoteModal(false)} 
-          />
-          <div className="relative glass-morphism-strong rounded-2xl p-8 max-w-md w-full border border-white/20 animate-in zoom-in-95 slide-in-from-bottom-4 duration-500">
-            {/* Close button */}
-            <button
-              onClick={() => setShowQuoteModal(false)}
-              className="absolute top-4 right-4 p-2 hover:bg-white/10 rounded-lg transition-colors"
-            >
-              <X className="w-5 h-5 text-gray-400" />
-            </button>
-
-            {/* Parallax background effect */}
-            <div className="absolute inset-0 rounded-2xl overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-full -translate-y-16 translate-x-16 animate-pulse"></div>
-              <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-yellow-500/15 to-orange-500/15 rounded-full translate-y-12 -translate-x-12 animate-pulse" style={{ animationDelay: '1s' }}></div>
-            </div>
-
-            {/* Content */}
-            <div className="relative z-10 text-center">
-              <div className="w-16 h-16 glass-morphism rounded-full flex items-center justify-center mx-auto mb-6 cosmic-glow-strong">
-                <img src="/site-icon.png" alt="Cosmic Cantina" className="w-12 h-12 rounded-full object-cover" />
-              </div>
-              
-              <div className="mb-6">
-                <div className="text-2xl font-bold cosmic-text mb-4">Master Windu Speaks</div>
-                <blockquote className="text-lg text-gray-200 leading-relaxed italic">
-                  "You are on this council, but we do not grant you the rank of Master."
-                </blockquote>
-                <cite className="block text-sm text-gray-400 mt-4 font-medium">— Mace Windu</cite>
-              </div>
-
-              <div className="flex items-center justify-center space-x-2 text-sm text-gray-500">
-                <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
-                <span>The Force is strong with this one</span>
-                <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 };
