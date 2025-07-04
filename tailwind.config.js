@@ -4,13 +4,13 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'sf': ['SF Pro Display', 'system-ui', 'sans-serif'],
-        'segoe': ['Segoe UI', 'system-ui', 'sans-serif'],
+        'orbitron': ['Orbitron', 'monospace'],
+        'exo': ['Exo 2', 'sans-serif'],
       },
       colors: {
-        'ios': {
-          blue: '#007AFF',
-          green: '#34C759',
+        'galactic': {
+          blue: '#00AAFF',
+          green: '#00FF64',
           orange: '#FF9500',
           red: '#FF3B30',
           purple: '#5856D6',
@@ -18,29 +18,31 @@ export default {
           yellow: '#FFCC00',
           gray: '#8E8E93',
         },
-        'vista': {
-          light: 'rgba(255, 255, 255, 0.1)',
-          medium: 'rgba(255, 255, 255, 0.05)',
-          dark: 'rgba(0, 0, 0, 0.3)',
-          border: 'rgba(255, 255, 255, 0.2)',
+        'starwars': {
+          light: 'rgba(0, 170, 255, 0.15)',
+          medium: 'rgba(0, 170, 255, 0.08)',
+          dark: 'rgba(0, 20, 40, 0.5)',
+          border: 'rgba(0, 170, 255, 0.3)',
         }
       },
       backdropBlur: {
         xs: '2px',
         '4xl': '72px',
+        '5xl': '100px',
       },
       animation: {
-        'float-complex': 'floatComplex 10s ease-in-out infinite',
-        'cosmic-shift': 'cosmicShift 4s ease-in-out infinite',
-        'background-shift': 'backgroundShift 25s ease-in-out infinite',
-        'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+        'float-complex': 'floatComplex 12s ease-in-out infinite',
+        'cosmic-shift': 'cosmicShift 6s ease-in-out infinite',
+        'background-shift': 'backgroundShift 30s ease-in-out infinite',
+        'pulse-glow': 'pulseGlow 3s ease-in-out infinite',
+        'hologram-sweep': 'hologramSweep 3s ease-in-out infinite',
       },
       keyframes: {
         floatComplex: {
           '0%, 100%': { transform: 'translateY(0px) translateX(0px) rotate(0deg)' },
-          '25%': { transform: 'translateY(-15px) translateX(8px) rotate(2deg)' },
-          '50%': { transform: 'translateY(-8px) translateX(-8px) rotate(-2deg)' },
-          '75%': { transform: 'translateY(-20px) translateX(5px) rotate(1deg)' },
+          '25%': { transform: 'translateY(-20px) translateX(12px) rotate(3deg)' },
+          '50%': { transform: 'translateY(-12px) translateX(-12px) rotate(-3deg)' },
+          '75%': { transform: 'translateY(-25px) translateX(8px) rotate(2deg)' },
         },
         cosmicShift: {
           '0%, 100%': { backgroundPosition: '0% 50%' },
@@ -48,19 +50,31 @@ export default {
         },
         backgroundShift: {
           '0%, 100%': { opacity: '0.3', transform: 'scale(1) rotate(0deg)' },
-          '50%': { opacity: '0.6', transform: 'scale(1.1) rotate(180deg)' },
+          '50%': { opacity: '0.6', transform: 'scale(1.2) rotate(180deg)' },
         },
         pulseGlow: {
-          '0%, 100%': { boxShadow: '0 0 20px rgba(0, 122, 255, 0.4)' },
-          '50%': { boxShadow: '0 0 40px rgba(0, 122, 255, 0.6)' },
+          '0%, 100%': { 
+            boxShadow: '0 0 30px rgba(0, 170, 255, 0.5)',
+            transform: 'scale(1)'
+          },
+          '50%': { 
+            boxShadow: '0 0 60px rgba(0, 170, 255, 0.8)',
+            transform: 'scale(1.1)'
+          },
+        },
+        hologramSweep: {
+          '0%': { left: '-100%' },
+          '50%': { left: '100%' },
+          '100%': { left: '100%' },
         },
       },
       boxShadow: {
-        'glass': '0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
-        'glass-lg': '0 16px 48px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.25)',
-        'ios-blue': '0 0 20px rgba(0, 122, 255, 0.4), 0 0 40px rgba(0, 122, 255, 0.2)',
-        'ios-green': '0 0 20px rgba(52, 199, 89, 0.4), 0 0 40px rgba(52, 199, 89, 0.2)',
-        'ios-orange': '0 0 20px rgba(255, 149, 0, 0.4), 0 0 40px rgba(255, 149, 0, 0.2)',
+        'glass': '0 12px 40px rgba(0, 0, 0, 0.6), inset 0 2px 0 rgba(255, 255, 255, 0.2)',
+        'glass-lg': '0 20px 60px rgba(0, 0, 0, 0.8), inset 0 3px 0 rgba(255, 255, 255, 0.25)',
+        'galactic-blue': '0 0 30px rgba(0, 170, 255, 0.5), 0 0 60px rgba(0, 170, 255, 0.3)',
+        'galactic-green': '0 0 30px rgba(0, 255, 100, 0.5), 0 0 60px rgba(0, 255, 100, 0.3)',
+        'galactic-orange': '0 0 30px rgba(255, 149, 0, 0.5), 0 0 60px rgba(255, 149, 0, 0.3)',
+        'galactic-red': '0 0 30px rgba(255, 59, 48, 0.5), 0 0 60px rgba(255, 59, 48, 0.3)',
       },
     },
   },
