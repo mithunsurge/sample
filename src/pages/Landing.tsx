@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Clock, Users, ChefHat, ArrowRight, Utensils, Star, Sparkles, Zap, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import SplineModel from '../components/3D/SplineModel';
 
 const Landing: React.FC = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -67,40 +68,73 @@ const Landing: React.FC = () => {
         </div>
       </header>
 
-      {/* Hero Section */}
+      {/* Hero Section with 3D Model */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-16 relative z-10">
-        <div className="text-center mb-12 sm:mb-20">
-          <div className="mb-8">
-            <div className="inline-flex items-center space-x-2 glass-morphism px-6 py-3 rounded-full border border-white/20 mb-8 hover-lift cosmic-glow">
-              <Star className="w-5 h-5 text-blue-400" />
-              <span className="text-blue-300 text-sm font-medium">Smart Digital Ordering</span>
-              <Sparkles className="w-5 h-5 text-purple-400" />
+        <div className="grid lg:grid-cols-2 gap-12 items-center mb-12 sm:mb-20">
+          {/* Left Column - Content */}
+          <div className="text-center lg:text-left">
+            <div className="mb-8">
+              <div className="inline-flex items-center space-x-2 glass-morphism px-6 py-3 rounded-full border border-white/20 mb-8 hover-lift cosmic-glow">
+                <Star className="w-5 h-5 text-blue-400" />
+                <span className="text-blue-300 text-sm font-medium">Smart Digital Ordering</span>
+                <Sparkles className="w-5 h-5 text-purple-400" />
+              </div>
+            </div>
+            
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6 sm:mb-8 tracking-tight leading-tight">
+              Skip the Queue,<br />
+              <span className="cosmic-text text-5xl sm:text-6xl md:text-7xl">Order Smart</span>
+            </h1>
+            
+            <p className="text-lg sm:text-xl text-gray-300 max-w-3xl lg:max-w-none mb-8 sm:mb-12 leading-relaxed">
+              Experience quality cuisine with cutting-edge technology. Pre-order your favorite meals 
+              and skip the lunch rush with our intelligent ordering system.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center lg:justify-start items-center mb-10">
+              <div className="flex items-center space-x-3 glass-card px-5 py-3 rounded-xl hover-lift">
+                <Clock className="w-5 h-5 text-blue-400" />
+                <span className="text-sm font-medium text-white">Instant Ordering</span>
+              </div>
+              <div className="flex items-center space-x-3 glass-card px-5 py-3 rounded-xl hover-lift">
+                <Shield className="w-5 h-5 text-purple-400" />
+                <span className="text-sm font-medium text-white">Quality Food</span>
+              </div>
+              <div className="flex items-center space-x-3 glass-card px-5 py-3 rounded-xl hover-lift">
+                <Zap className="w-5 h-5 text-yellow-400" />
+                <span className="text-sm font-medium text-white">Smart Technology</span>
+              </div>
             </div>
           </div>
-          
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6 sm:mb-8 tracking-tight leading-tight">
-            Skip the Queue,<br />
-            <span className="cosmic-text text-5xl sm:text-6xl md:text-7xl">Order Smart</span>
-          </h1>
-          
-          <p className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto mb-8 sm:mb-12 leading-relaxed px-4">
-            Experience quality cuisine with cutting-edge technology. Pre-order your favorite meals 
-            and skip the lunch rush with our intelligent ordering system.
-          </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center mb-10">
-            <div className="flex items-center space-x-3 glass-card px-5 py-3 rounded-xl hover-lift">
-              <Clock className="w-5 h-5 text-blue-400" />
-              <span className="text-sm font-medium text-white">Instant Ordering</span>
+          {/* Right Column - 3D Model */}
+          <div className="relative h-96 lg:h-[500px] xl:h-[600px]">
+            <div className="absolute inset-0 glass-morphism rounded-3xl border border-white/20 overflow-hidden">
+              <SplineModel 
+                className="w-full h-full"
+                fallbackContent={
+                  <div className="w-full h-full flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="w-32 h-32 mx-auto mb-6 glass-morphism-strong rounded-full flex items-center justify-center cosmic-glow-strong">
+                        <img 
+                          src="/site-icon.png" 
+                          alt="Cosmic Cantina" 
+                          className="w-20 h-20 rounded-full object-cover"
+                        />
+                      </div>
+                      <h3 className="text-xl font-semibold text-white mb-2">Interactive 3D Experience</h3>
+                      <p className="text-gray-400 text-sm">Explore our cosmic dining universe</p>
+                    </div>
+                  </div>
+                }
+              />
             </div>
-            <div className="flex items-center space-x-3 glass-card px-5 py-3 rounded-xl hover-lift">
-              <Shield className="w-5 h-5 text-purple-400" />
-              <span className="text-sm font-medium text-white">Quality Food</span>
-            </div>
-            <div className="flex items-center space-x-3 glass-card px-5 py-3 rounded-xl hover-lift">
-              <Zap className="w-5 h-5 text-yellow-400" />
-              <span className="text-sm font-medium text-white">Smart Technology</span>
-            </div>
+            
+            {/* Decorative elements around the 3D model */}
+            <div className="absolute -top-4 -left-4 w-8 h-8 bg-blue-500/20 rounded-full animate-pulse"></div>
+            <div className="absolute -top-2 -right-6 w-6 h-6 bg-purple-500/20 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
+            <div className="absolute -bottom-4 -left-2 w-10 h-10 bg-yellow-500/20 rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
+            <div className="absolute -bottom-2 -right-4 w-7 h-7 bg-green-500/20 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
           </div>
         </div>
 
